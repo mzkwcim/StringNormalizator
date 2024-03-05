@@ -1,16 +1,18 @@
-function zamienKropkiNaPrzecinki() {
+function changeDotsToComas() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet();
-  var sheetId = sheet.getId();
-
-  var range = sheet.getSheetByName('Bobkacz').getRange('B2:J33');
-  var data = range.getValues();
-
-  for (var i = 0; i < data.length; i++) {
-    for (var j = 0; j < data[i].length; j++) {
-      data[i][j] = data[i][j].toString().replace(/\./g, ',');
+  var sheets = sheet.getSheets();
+  for (var k = 0; k < sheets.length; k++){
+    var nameOfSheet = sheets[k].getName();
+    var range = sheet.getSheetByName(nameOfSheet).getRange('B2:O100');
+    var data = range.getValues();
+    for (var i = 0; i < data.length; i++) {
+      for (var j = 0; j < data[i].length; j++) {
+        if (data[i][j].toString().length > 0){
+          data[i][j] = data[i][j].toString().replace(/\./g, ',');
+        }
+      }
     }
+    range.setValues(data);
   }
-  range.setValues(data);
-  
-  Logger.log('Zamieniono kropki na przecinki w zakresie ' + range.getA1Notation() + ' w arkuszu o ID: ' + sheetId);
 }
+
